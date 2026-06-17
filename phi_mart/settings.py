@@ -17,8 +17,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY','*eb6+)kg7=jgmv*#&he^mb8#(&_7o$jclp+vwh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ["phi-mart-omega.vercel.app",
-                "phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
+ALLOWED_HOSTS = [".vercel.app",
                  "localhost",
                  "127.0.0.1"]
 
