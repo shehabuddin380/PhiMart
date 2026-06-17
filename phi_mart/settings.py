@@ -21,7 +21,7 @@ ALLOWED_HOSTS = ["phi-mart-omega.vercel.app",
                 "phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
                  "localhost",
                  "127.0.0.1"]
-                 
+
 AUTH_USER_MODEL = 'users.User'
 
 # Application definition
@@ -174,3 +174,9 @@ SWAGGER_SETTINGS = {
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://phi-mart-omega.vercel.app",
+    "https://phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
+]
