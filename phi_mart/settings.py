@@ -17,9 +17,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY','*eb6+)kg7=jgmv*#&he^mb8#(&_7o$jclp+vwh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = [".vercel.app",
-                 "localhost",
-                 "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = 'users.User'
 
