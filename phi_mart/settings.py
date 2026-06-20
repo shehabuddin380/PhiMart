@@ -184,6 +184,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CSRF_TRUSTED_ORIGINS = [
     "https://phi-mart-omega.vercel.app",
     "https://phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
+    "https://phi-mart-123t9yie1-md-shehabs-projects.vercel.app",
+    
 ]
 
 
