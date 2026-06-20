@@ -185,3 +185,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://phi-mart-omega.vercel.app",
     "https://phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
 ]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
