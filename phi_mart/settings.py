@@ -17,7 +17,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY','*eb6+)kg7=jgmv*#&he^mb8#(&_7o$jclp+vwh
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-
 ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = 'users.User'
@@ -39,14 +38,14 @@ INSTALLED_APPS = [
     'product',
     'users',
     'order',
-    "debug_toolbar",
+    # "debug_toolbar",
     "corsheaders",
 
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -186,6 +185,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://phi-mart-obkgrmasb-md-shehabs-projects.vercel.app",
     "https://phi-mart-123t9yie1-md-shehabs-projects.vercel.app",
     "https://phimart.vercel.app", 
+    "https://phimart-client-nu.vercel.app",
 ]
 
 
@@ -195,3 +195,7 @@ CSRF_TRUSTED_ORIGINS = [
 # ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
