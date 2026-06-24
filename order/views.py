@@ -52,6 +52,14 @@ class OrderViewset(ModelViewSet):
         order = self.get_object()
         OrderService.cancel_order(order=order, user=request.user)
         return Response({'status': 'Order canceled'})
+    
+    @action(detail=True, methods=['get'], url_path='has-ordered')
+    def has_ordered(self, request, pk=None):
+        has_ordered = Order.objects.filter(
+        user=request.user,
+        items__product_id=pk
+        ).exists()
+        return Response({'has_ordered': has_ordered})
 
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
