@@ -2,7 +2,7 @@ from django.urls import path, include
 from product.views import ProductViewSet, CategoryViewSet, ReviewViewSet, ProductImageViewSet
 from order.views import CartViewSet, CartItemViewSet, OrderViewset
 from rest_framework_nested import routers
-
+from order.views import CartViewSet, CartItemViewSet, OrderViewset, HasOrderedView
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet, basename='products')
 router.register('categories', CategoryViewSet)
@@ -26,4 +26,5 @@ urlpatterns = [
     path('', include(cart_router.urls)),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
+    path('orders/has-ordered/<int:product_id>/', HasOrderedView.as_view(), name='has-ordered'),
 ]
