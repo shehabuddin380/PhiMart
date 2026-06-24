@@ -1,3 +1,4 @@
+from rest_framework.views import APIView
 from django.shortcuts import render
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -95,3 +96,12 @@ class OrderViewset(ModelViewSet):
         if self.request.user.is_staff:
             return Order.objects.prefetch_related('items__product').all()
         return Order.objects.prefetch_related('items__product').filter(user=self.request.user)
+class HasOrderedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, product_id):
+        has_ordered = Order.objects.filter(
+            user=request.user,
+            items__product_id=product_id
+        ).exists()
+        return Response({'has_ordered': has_ordered})
