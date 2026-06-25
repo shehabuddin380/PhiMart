@@ -199,3 +199,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://phimart-client-nu.vercel.app')
