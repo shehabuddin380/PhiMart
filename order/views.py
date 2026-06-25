@@ -100,33 +100,3 @@ class HasOrderedView(APIView):
         ).exists()
         return Response({'has_ordered': has_ordered})
 
-class StripeCheckoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, order_id):
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        
-        try:
-            order = Order.objects.get(id=order_id, user=request.user)
-        except Order.DoesNotExist:
-            return Response({'error': 'Order not found'}, status=404)
-
-        line_items = []
-        for item in order.items.all():
-            line_items.append({
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {'name': item.product.name},
-                    'unit_amount': int(item.price * 100),
-                },
-                'quantity': item.quantity,
-            })
-
-        session = stripe.checkout.Session.create(
-            payment_method_types=['carddf'],
-            line_items=line_items,
-            mode='payment',
-            success_url=settings.FRONTEND_URL + '/dashboard/payment/success/?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=settings.FRONTEND_URL + '/dashboard/orders',
-        )
-        return Response({'url': session.url})
