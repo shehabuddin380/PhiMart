@@ -123,7 +123,7 @@ class StripeCheckoutView(APIView):
             })
 
         session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
+            payment_method_types=['carddf'],
             line_items=line_items,
             mode='payment',
             success_url=settings.FRONTEND_URL + '/dashboard/payment/success/?session_id={CHECKOUT_SESSION_ID}',
