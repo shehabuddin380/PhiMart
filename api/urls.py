@@ -26,6 +26,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('orders/has-ordered/<int:product_id>/', HasOrderedView.as_view(), name='has-ordered'),
-    path('orders/<int:order_id>/payment/initiate/', StripeCheckoutView.as_view(), name='payment-initiate'),
+    path('orders/<uuid:order_id>/payment/initiate/', StripeCheckoutView.as_view(), name='payment-initiate'),
 
 ]
