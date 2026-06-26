@@ -17,8 +17,10 @@ class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, Gener
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data, status=201 if created else 200)
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
@@ -40,7 +42,6 @@ class CartItemViewSet(ModelViewSet):
         context = super().get_serializer_context()
         if getattr(self, 'swagger_fake_view', False):
             return context
-
         return {'cart_id': self.kwargs.get('cart_pk')}
 
     def get_queryset(self):
@@ -55,7 +56,7 @@ class OrderViewset(ModelViewSet):
         order = self.get_object()
         OrderService.cancel_order(order=order, user=request.user)
         return Response({'status': 'Order canceled'})
-    
+
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
         order = self.get_object()
@@ -63,7 +64,7 @@ class OrderViewset(ModelViewSet):
             order, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'status': f'Order status updated to {request.data['status']}'})
+        return Response({'status': f'Order status updated to {request.data["status"]}'})
 
     def get_permissions(self):
         if self.action in ['update_status', 'destroy']:
@@ -90,6 +91,8 @@ class OrderViewset(ModelViewSet):
         if self.request.user.is_staff:
             return Order.objects.prefetch_related('items__product').all()
         return Order.objects.prefetch_related('items__product').filter(user=self.request.user)
+
+
 class HasOrderedView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -100,12 +103,13 @@ class HasOrderedView(APIView):
         ).exists()
         return Response({'has_ordered': has_ordered})
 
+
 class StripeCheckoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, order_id):
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        
+
         try:
             order = Order.objects.get(id=order_id, user=request.user)
         except Order.DoesNotExist:
