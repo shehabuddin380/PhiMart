@@ -105,11 +105,12 @@ class CreateOrderSerializer(serializers.Serializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = SimpleProductSerializer()
+    product = SimpleProductSerializer(many=True)
+    user_email = serializers.EmailField(source='user.email', read_only=True)
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'product', 'price', 'quantity', 'total_price']
+        fields = ['id', 'user', 'user_email', 'status', 'total_price', 'created_at', 'items']
 
 
 class UpdateOrderSerializer(serializers.ModelSerializer):
